@@ -1,17 +1,21 @@
-// Roy: A Life Well Lived — All 18 Life Events
-// Each choice has: text, effects (stat deltas), highlight (for death summary), outcome (shown to player)
+// Roy: A Life Well Lived — All Life Events
+// Each choice: text, effects (stat deltas), highlight (death summary), outcome (shown to player)
+// 4th choices are always the wild/chaotic option.
+// New conditional events fire only when specific flags are set.
 
 export const STAGES = {
-  childhood: { label: 'Childhood', color: '#39FF14' },
-  teen: { label: 'Teen Years', color: '#00B4D8' },
-  youngAdult: { label: 'Young Adult', color: '#9B5DE5' },
-  adult: { label: 'Adult', color: '#F15BB5' },
-  middleAge: { label: 'Middle Age', color: '#FF6B35' },
-  senior: { label: 'Senior Years', color: '#FFD60A' },
+  childhood:   { label: 'Childhood',     color: '#39FF14' },
+  teen:        { label: 'Teen Years',    color: '#00B4D8' },
+  youngAdult:  { label: 'Young Adult',   color: '#9B5DE5' },
+  adult:       { label: 'Adult',         color: '#F15BB5' },
+  middleAge:   { label: 'Middle Age',    color: '#FF6B35' },
+  senior:      { label: 'Senior Years',  color: '#FFD60A' },
 }
 
 export const EVENTS = [
+
   // ── CHILDHOOD ──────────────────────────────────────────────────────────────
+
   {
     id: 'school_first_day',
     stage: 'childhood',
@@ -46,6 +50,16 @@ export const EVENTS = [
           "Mrs. Patterson is very patient. Roy is less so with himself.",
         highlight: 'had a rough first day of school that he never quite forgot',
       },
+      {
+        text: '🌀 Challenge the biggest kid to a staring contest for dominance',
+        wild: true,
+        effects: { happiness: 8, relationships: 5, health: 0, career: 3, money: 0 },
+        outcome:
+          "Roy stares at Brett Kowalski for eleven minutes without blinking. Brett cries. " +
+          "Roy is instantly feared and respected. Mrs. Patterson is not thrilled. " +
+          "This is not the healthy foundation she was hoping for.",
+        highlight: 'won a kindergarten staring contest and ruled first grade through sheer intimidation',
+      },
     ],
   },
 
@@ -72,7 +86,7 @@ export const EVENTS = [
         text: "Tryout half-heartedly — it's just a game",
         effects: { happiness: 2, health: 2, career: 0, relationships: 2, money: 0 },
         outcome:
-          "Roy makes second string. He mostly warms the bench but he's technically on the team. " +
+          "Roy makes second string. He mostly warms the bench. " +
           "His dad shrugs. That's about what Roy expected.",
         highlight: 'played on the Pee-Wee football bench but learned the game',
       },
@@ -83,6 +97,17 @@ export const EVENTS = [
           "Roy stays home and reads comic books. His dad doesn't say anything at dinner. " +
           "That somehow feels worse than being yelled at.",
         highlight: 'skipped football tryouts and spent the afternoon reading alone',
+      },
+      {
+        text: "🌀 Organize the team to strike for better equipment",
+        wild: true,
+        effects: { happiness: 10, health: 0, career: 12, relationships: 8, money: 0 },
+        outcome:
+          "Roy hands out handwritten flyers at 8am. 'NO NEW HELMETS, NO TRYOUTS.' " +
+          "The Pee-Wee Wildcats stage the first organized youth sports strike in county history. " +
+          "They get new helmets. Coach Henderson quietly, deeply respects this nine-year-old.",
+        highlight: 'organized his Pee-Wee football team to strike for better equipment at age nine',
+        setFlag: 'organizer',
       },
     ],
   },
@@ -114,17 +139,28 @@ export const EVENTS = [
         highlight: 'called for help when it mattered and learned that was okay',
       },
       {
-        text: 'Lock himself in his room and pretend it isn\'t happening',
+        text: "Lock himself in his room and pretend it isn't happening",
         effects: { happiness: -15, health: -8, career: 0, relationships: -8, money: 0 },
         outcome:
           "Roy puts his headphones on. The walls aren't thick enough. " +
           "He carries this night around for a long time.",
         highlight: 'had a childhood that asked too much of him too soon',
       },
+      {
+        text: "🌀 Pour out every bottle in the house and fill them with water",
+        wild: true,
+        effects: { happiness: 10, health: 3, career: 3, relationships: 8, money: -3 },
+        outcome:
+          "Roy empties fifteen bottles of Wild Turkey and refills each one with tap water. " +
+          "Puts them back exactly. His dad drinks two glasses the next morning and feels weirdly okay. " +
+          "Roy considers this a complete victory. He never tells anyone.",
+        highlight: "replaced his dad's entire liquor supply with water at age eleven and got away with it",
+      },
     ],
   },
 
   // ── TEEN ───────────────────────────────────────────────────────────────────
+
   {
     id: 'high_school_identity',
     stage: 'teen',
@@ -132,7 +168,7 @@ export const EVENTS = [
     title: 'High School Identity',
     text:
       "Freshman year. The cafeteria is a minefield of social factions. " +
-      "Roy could go jock, band geek, stoner, or just... float. " +
+      "Roy could go jock, science nerd, or just... float. " +
       "Who does Roy want to be?",
     choices: [
       {
@@ -144,12 +180,13 @@ export const EVENTS = [
         highlight: 'found his identity on the football field in high school',
       },
       {
-        text: 'Join the science club — there\'s a state competition',
+        text: "Join the science club — there's a state competition",
         effects: { happiness: 6, health: 0, career: 15, relationships: 3, money: 5 },
         outcome:
           "Roy discovers he's actually good at chemistry. His lab partner becomes his best friend. " +
           "They take third at regionals and Roy feels like he won the Super Bowl.",
         highlight: 'found his tribe in the science lab and won a regional competition',
+        setFlag: 'science_kid',
       },
       {
         text: 'Float — eat lunch wherever, be friendly to everyone',
@@ -158,6 +195,18 @@ export const EVENTS = [
           "Roy becomes the guy everyone knows but nobody really knows. " +
           "He's invited to every party. He belongs to none of them. That's fine for now.",
         highlight: 'floated through high school known by everyone and belonging to no one',
+      },
+      {
+        text: "🌀 Run an underground dice game in the back of the locker room",
+        wild: true,
+        effects: { happiness: 14, health: 0, career: 8, relationships: 12, money: 18 },
+        outcome:
+          "Roy runs the cleanest dice operation Westview High has ever seen. " +
+          "He takes a reasonable rake. He settles disputes fairly. " +
+          "He is suspended for three weeks when Vice Principal Goff finds the operation. " +
+          "His customers write him a card. It's touching, honestly.",
+        highlight: 'ran an underground gambling ring at fourteen and only got caught once',
+        setFlag: 'entrepreneur',
       },
     ],
   },
@@ -176,7 +225,7 @@ export const EVENTS = [
         text: 'Food Lion — steady paycheck, air conditioning',
         effects: { happiness: 3, health: 0, career: 5, relationships: 5, money: 15 },
         outcome:
-          "Roy learns to be invisible and efficient. He gets promoted to produce in six weeks. " +
+          "Roy learns to be invisible and efficient. Gets promoted to produce in six weeks. " +
           "The assistant manager tells him he has 'real potential in retail.'",
         highlight: 'learned the value of showing up on time every single day',
       },
@@ -197,6 +246,17 @@ export const EVENTS = [
         highlight: 'first learned the carpet business from his Uncle Larry at sixteen',
         foreshadow: 'carpet',
       },
+      {
+        text: "🌀 Sell homemade fireworks out of the garage — maximum profit, minimum safety",
+        wild: true,
+        effects: { happiness: 16, health: -8, career: 5, relationships: 5, money: 25 },
+        outcome:
+          "'Premier Pyrotechnics' sells $800 worth of product by the Fourth of July. " +
+          "One small garage fire. Zero injuries. Mr. Henderson from next door buys twelve boxes " +
+          "and calls Roy 'America's future.' Roy's mom disagrees loudly.",
+        highlight: 'ran an illegal fireworks business from his garage at sixteen and only started one fire',
+        setFlag: 'entrepreneur',
+      },
     ],
   },
 
@@ -208,7 +268,7 @@ export const EVENTS = [
     text:
       "Cap and gown. Roy's whole life is supposedly ahead of him. " +
       "His guidance counselor has been on his case about 'next steps.' " +
-      "College, work, or something else?",
+      "College, work, or something else entirely?",
     choices: [
       {
         text: "State university — everyone's going",
@@ -230,14 +290,26 @@ export const EVENTS = [
         text: "Get a job — college isn't for everyone",
         effects: { happiness: 2, health: 0, career: 5, relationships: 3, money: 20 },
         outcome:
-          "Roy skips the whole thing. He's making real money by October while his friends are broke freshmen. " +
+          "Roy skips the whole thing. Making real money by October while his friends are broke freshmen. " +
           "He'll wonder sometimes. But not often.",
         highlight: 'skipped college and hit the ground running',
+      },
+      {
+        text: "🌀 Enlist in the military — Roy needs to see the world",
+        wild: true,
+        effects: { happiness: 5, health: 20, career: 12, relationships: -8, money: 15 },
+        outcome:
+          "Roy ships out three weeks after graduation. Two years later he comes back " +
+          "with a posture like a steel beam, arms like bridge cables, " +
+          "and zero patience for people who complain about their commute.",
+        highlight: 'enlisted in the military straight out of high school and saw more of the world than he expected',
+        setFlag: 'veteran',
       },
     ],
   },
 
   // ── YOUNG ADULT ────────────────────────────────────────────────────────────
+
   {
     id: 'college_choice',
     stage: 'youngAdult',
@@ -266,12 +338,73 @@ export const EVENTS = [
         highlight: 'studied kinesiology and never stopped being a jock at heart',
       },
       {
-        text: 'Drop out — the idea was always someone else\'s',
+        text: "Drop out — the idea was always someone else's",
         effects: { happiness: -5, health: 0, career: -5, relationships: -3, money: 10 },
         outcome:
           "Roy walks. He tells himself he'll figure it out. " +
           "He's right — but it takes longer than he expected.",
         highlight: 'dropped out of college and had to find his own way from scratch',
+      },
+      {
+        text: "🌀 Become a professional poker player — Roy's got the math and the face for it",
+        wild: true,
+        effects: { happiness: 14, health: -3, career: -5, relationships: -5, money: 28 },
+        outcome:
+          "Roy grinds the regional circuit for two years. He's disciplined. Cold under pressure. " +
+          "He cashes six tournaments and tells himself he'll go pro once he hits six figures. " +
+          "He doesn't. He quits before he loses it all. Barely.",
+        highlight: 'spent two years as a semi-professional poker player and made a profit most days',
+      },
+    ],
+  },
+
+  // ── CONDITIONAL: veteran homecoming ───────────────────────────────────────
+  {
+    id: 'veteran_homecoming',
+    stage: 'youngAdult',
+    age: 22,
+    title: 'Coming Home',
+    checkFlag: 'veteran',
+    text:
+      "Roy's back from two years of service. He's different in ways he can't fully explain. " +
+      "His high school friends are at the same bar, same jokes, same everything. " +
+      "Roy has done things that make small talk feel like a foreign language. What now?",
+    choices: [
+      {
+        text: "Find other veterans — they'll actually understand",
+        effects: { happiness: 12, relationships: 15, health: 8, career: 5, money: 0 },
+        outcome:
+          "Roy finds a group of guys who get it. They don't talk about what they saw — " +
+          "they play poker and fix each other's cars and that's enough. " +
+          "This is the most comfortable Roy has felt since he got back.",
+        highlight: 'found his people in a veterans group that never once talked about feelings',
+      },
+      {
+        text: 'Throw himself into work — action is the only medicine',
+        effects: { happiness: -5, health: 0, career: 15, relationships: -5, money: 12 },
+        outcome:
+          "Roy works sixty hours a week. He doesn't know what he's running from " +
+          "but the motion helps. His boss calls him 'a machine.' " +
+          "Roy isn't sure if that's a compliment.",
+        highlight: 'came back from service and buried himself in work until the noise got quiet',
+      },
+      {
+        text: 'Try to pick up exactly where he left off — pretend nothing happened',
+        effects: { happiness: -12, health: -5, career: 0, relationships: -8, money: 0 },
+        outcome:
+          "Roy sits with his beer and his two years of things he can't say. " +
+          "He eventually stops returning calls. His mom is worried. She's right to be.",
+        highlight: "came home from the military a different person and tried to be the old Roy, which didn't work",
+      },
+      {
+        text: '🌀 Re-enlist. Civilian life makes no sense yet.',
+        wild: true,
+        effects: { happiness: -5, health: 15, career: 18, relationships: -18, money: 12 },
+        outcome:
+          "Roy re-enlists. Eight more years of structure and unambiguous purpose. " +
+          "When he finally gets out for good, he's thirty, " +
+          "built like a wall, and completely unsure what to do with a Tuesday afternoon.",
+        highlight: 're-enlisted because civilian life made no sense and served a total of ten years',
       },
     ],
   },
@@ -312,6 +445,16 @@ export const EVENTS = [
           "The startup gets acquired. Roy is not part of either story.",
         highlight: 'waited too long for the perfect opportunity and missed two good ones',
       },
+      {
+        text: "🌀 Follow the Grateful Dead on tour instead — what's the worst that can happen",
+        wild: true,
+        effects: { happiness: 25, health: -3, career: -15, relationships: -10, money: -25 },
+        outcome:
+          "Roy follows the Dead through seventeen states in a converted VW van with a guy named Fuzz. " +
+          "He runs out of money in Tulsa and calls his mom collect at 2am. " +
+          "She drives eight hours. He never regrets a single night. She kind of does.",
+        highlight: 'followed the Grateful Dead across seventeen states until the money ran out in Tulsa',
+      },
     ],
   },
 
@@ -326,12 +469,12 @@ export const EVENTS = [
       "Roy's been single his whole adult life. What's the move?",
     choices: [
       {
-        text: 'Commit — she\'s the one, go all in',
+        text: "Commit — she's the one, go all in",
         effects: { happiness: 18, health: 5, career: 0, relationships: 20, money: -5 },
         outcome:
           "Roy asks her to be his girlfriend at a diner. She says yes before he finishes the sentence. " +
           "He tips forty percent and walks home on air.",
-        highlight: "fell head over heels for a schoolteacher named Sandra",
+        highlight: 'fell head over heels for a schoolteacher named Sandra',
       },
       {
         text: "Keep it casual — you're still young",
@@ -349,17 +492,81 @@ export const EVENTS = [
           "He will lie awake about this for years.",
         highlight: 'let the best thing in his young life walk away',
       },
+      {
+        text: "🌀 Propose immediately — Vegas chapel, this Tuesday, to someone he just met",
+        wild: true,
+        effects: { happiness: 8, health: 0, career: -3, relationships: -12, money: -15 },
+        outcome:
+          "Roy marries Denise at the Viva Las Vegas Wedding Chapel by an Elvis impersonator. " +
+          "It's a Tuesday. The marriage lasts eight months. " +
+          "Roy keeps the casino chip from their honeymoon in his wallet until he dies.",
+        highlight: 'had a Las Vegas marriage to a woman named Denise that lasted eight months and was completely worth it',
+        setFlag: 'divorced_once',
+      },
+    ],
+  },
+
+  // ── CONDITIONAL: rock bottom ───────────────────────────────────────────────
+  {
+    id: 'rock_bottom',
+    stage: 'adult',
+    age: 27,
+    title: 'Rock Bottom (Or Close Enough)',
+    checkFlag: 'divorced_once',
+    text:
+      "Roy's Vegas marriage is over. He's twenty-seven, living in a studio apartment, " +
+      "eating cereal for dinner more nights than he'd like to admit. " +
+      "This isn't where he expected to be. What does he do with this?",
+    choices: [
+      {
+        text: 'Get actual therapy. Deal with it properly.',
+        effects: { happiness: 15, relationships: 12, health: 8, career: 3, money: -8 },
+        outcome:
+          "Roy sits across from Dr. Reyes and says 'I don't know why I'm here.' " +
+          "She says 'Yes you do.' Somehow that's enough to start. " +
+          "He goes for eleven months. He's a measurably better person by the end.",
+        highlight: 'went to therapy at twenty-seven and came out the other side worth knowing',
+      },
+      {
+        text: 'Channel it — start running at 5am, burn through the misery',
+        effects: { happiness: 10, health: 15, career: 5, relationships: 3, money: -3 },
+        outcome:
+          "Roy runs because misery needs somewhere to go. By month three: 7-minute miles. " +
+          "He doesn't write the song he planned to write. He writes a lot of journal entries " +
+          "that are basically songs. He never shows anyone.",
+        highlight: 'ran off a broken heart at twenty-seven and kept the habit for life',
+      },
+      {
+        text: 'Call Denise — maybe they made a mistake',
+        effects: { happiness: -8, relationships: -15, health: -3, career: -3, money: -5 },
+        outcome:
+          "Denise is open to talking. They spend three months in an exhausting will-they-won't-they " +
+          "that ends with both of them worse than before. The final call is forty minutes. " +
+          "Neither says anything useful. They never speak again.",
+        highlight: 'tried to fix his Vegas marriage six months after the divorce and made everything worse',
+      },
+      {
+        text: "🌀 Embrace the chaos — take a bus to New Orleans, no plan, no timeline",
+        wild: true,
+        effects: { happiness: 22, health: 5, career: -5, relationships: -5, money: -12 },
+        outcome:
+          "Roy takes the 8am Greyhound to New Orleans because he'd never been. " +
+          "He stays six weeks. He eats things he can't pronounce. He makes friends he'll never find again. " +
+          "He comes back broke and clear-headed. That's the trade. It was fair.",
+        highlight: 'took a Greyhound to New Orleans alone at twenty-seven with no plan and found it clarifying',
+      },
     ],
   },
 
   // ── ADULT ──────────────────────────────────────────────────────────────────
+
   {
     id: 'marriage_decision',
     stage: 'adult',
     age: 28,
     title: 'Marriage Decision',
     text:
-      "Roy's been with Linda for three years. She's patient, smart, and completely in love with him. " +
+      "Roy's been with Linda for three years. She's patient, smart, completely in love with him. " +
       "His buddy Jeff just got divorced. Roy's not sure what he believes about marriage anymore. " +
       "He's got a ring in his sock drawer.",
     choices: [
@@ -375,17 +582,78 @@ export const EVENTS = [
         text: "Wait — Jeff's divorce has him spooked",
         effects: { happiness: -5, health: 0, career: 5, relationships: -8, money: 5 },
         outcome:
-          "Linda gives him six more months, then asks him what they're doing. " +
+          "Linda gives him six more months, then asks what they're doing. " +
           "Roy doesn't have a good answer. She leaves. He keeps the ring.",
         highlight: 'waited too long and let Linda walk out the door',
       },
       {
-        text: 'Break up — he\'s not built for this',
+        text: "Break up — he's not built for this",
         effects: { happiness: -15, health: -5, career: 5, relationships: -20, money: 10 },
         outcome:
-          "Roy is alone in a very clean apartment. He has a lot of time for hobbies now. " +
+          "Roy is alone in a very clean apartment. He has a lot of time for hobbies. " +
           "He takes up fishing. He hates fishing.",
         highlight: 'ended things with Linda and spent a decade regretting it',
+      },
+      {
+        text: "🌀 Propose on the Jumbotron at a baseball game — without warning her first",
+        wild: true,
+        effects: { happiness: 15, health: 3, career: 3, relationships: 18, money: -8 },
+        outcome:
+          "Forty thousand people watch Linda's face cycle through shock, fury, and then — impossibly — joy. " +
+          "Roy has absolutely no idea how that worked. He still doesn't. " +
+          "Linda tells the story at every dinner party for thirty years.",
+        highlight: 'proposed to Linda on a stadium Jumbotron without warning and somehow got a yes',
+      },
+    ],
+  },
+
+  {
+    id: 'the_big_idea',
+    stage: 'adult',
+    age: 35,
+    title: 'The Big Idea',
+    checkFlag: 'entrepreneur',
+    text:
+      "Roy's had a business idea for years: premium flooring showrooms with in-home consultation " +
+      "— the kind of service big box stores can't compete with. He has the knowledge. " +
+      "He might have a partner. He definitely does not have the capital. Does he bet on himself?",
+    choices: [
+      {
+        text: 'Go for it — second mortgage, full launch',
+        effects: { happiness: 12, health: -8, career: 22, relationships: -8, money: -25 },
+        outcome:
+          "Roy Flooring & Design opens in the spring. The first year almost kills him. " +
+          "The second year almost doesn't. Year five: four locations. " +
+          "He is the most stressed and most alive he has ever simultaneously been.",
+        highlight: 'mortgaged his house to start a flooring business empire and somehow made it work',
+        setFlag: 'business_empire',
+      },
+      {
+        text: 'Find investors — share the risk, share the upside',
+        effects: { happiness: 8, health: -3, career: 16, relationships: 5, money: 8 },
+        outcome:
+          "Roy pitches fourteen people. Three say yes. He gives up 40% equity but keeps his house. " +
+          "His partners are annoying. The money is not.",
+        highlight: "built a flooring business empire with other people's money and their frequent opinions",
+      },
+      {
+        text: "Start small — test it on weekends first",
+        effects: { happiness: 8, health: 0, career: 8, relationships: 3, money: -5 },
+        outcome:
+          "Roy runs premium consultations on Saturdays. Within six months: a waiting list. " +
+          "By year two it's a real business. Not the empire he dreamed, but something real.",
+        highlight: 'built a side business from weekend consultations and kept his day job just in case',
+      },
+      {
+        text: "🌀 Take the idea to a Shark Tank-style pitch competition — go full television",
+        wild: true,
+        effects: { happiness: 18, health: -3, career: 15, relationships: 5, money: 20 },
+        outcome:
+          "Roy stands in front of five investors under fluorescent lights and pitch-yells for six minutes. " +
+          "Two of them pass. One writes a check on the spot. " +
+          "Roy is briefly on regional TV. His mom records it on VHS and watches it forty times.",
+        highlight: 'pitched his flooring business on regional television and got a check on the spot',
+        setFlag: 'business_empire',
       },
     ],
   },
@@ -413,7 +681,7 @@ export const EVENTS = [
         effects: { happiness: 3, health: 0, career: 8, relationships: 5, money: 15 },
         outcome:
           "They wait. They save. They travel. It's good. " +
-          "They have their first kid at thirty-six, right on schedule. Roy's wife cries with relief.",
+          "They have their first kid at thirty-six, right on schedule.",
         highlight: 'planned carefully and started a family when the time was right',
       },
       {
@@ -423,6 +691,18 @@ export const EVENTS = [
           "Roy says he doesn't want kids. His wife doesn't leave, but something leaves with her. " +
           "They never talk about it directly again.",
         highlight: 'chose career over family and lived in the quiet that followed',
+      },
+      {
+        text: "🌀 Adopt Marcus, a twelve-year-old nobody else is taking",
+        wild: true,
+        effects: { happiness: 18, health: 0, career: -5, relationships: 25, money: -15 },
+        outcome:
+          "Marcus doesn't say much the first month. He's waiting for the other shoe to drop. " +
+          "By month three Roy finds him in the garage fixing the lawnmower 'because it was broken.' " +
+          "He says 'Dad' for the first time a year later, during football. " +
+          "Roy pretends not to notice so Marcus won't feel embarrassed. Marcus knows he noticed.",
+        highlight: 'adopted a twelve-year-old named Marcus who nobody else would take and gave him everything',
+        setFlag: 'adopted_marcus',
       },
     ],
   },
@@ -434,7 +714,7 @@ export const EVENTS = [
     title: 'The Diagnosis',
     text:
       "Roy went in for a routine physical. It was not routine. " +
-      "The doctor uses the word 'cancer' and Roy's ears stop working for about thirty seconds. " +
+      "The doctor uses the word 'cancer' and Roy's ears stop working for thirty seconds. " +
       "It's treatable — but the treatment is brutal. How does Roy approach this?",
     choices: [
       {
@@ -447,21 +727,33 @@ export const EVENTS = [
         setFlag: 'fighting_cancer',
       },
       {
-        text: 'Do the minimum treatment, try to keep living normally',
+        text: 'Do the minimum — try to keep living normally',
         effects: { happiness: -5, health: -10, career: 0, relationships: 5, money: -10 },
         outcome:
-          "Roy manages it around his schedule. He doesn't tell most people. " +
-          "His color isn't right for two years. His doctor is frustrated.",
-        highlight: 'got cancer at thirty-eight and tried to pretend it wasn\'t happening',
+          "Roy manages it around his schedule. His color isn't right for two years. " +
+          "His doctor is frustrated.",
+        highlight: "got cancer at thirty-eight and tried to pretend it wasn't happening",
         setFlag: 'fighting_cancer_weak',
       },
       {
-        text: 'Ignore the second opinion — maybe they\'re wrong',
+        text: "Ignore it — maybe they're wrong",
         effects: { happiness: 5, health: -25, career: 5, relationships: -5, money: 0 },
         outcome:
-          "Roy decides to get a second opinion. Then a third. " +
-          "Each one says the same thing. He loses six months.",
-        highlight: 'couldn\'t accept his diagnosis and lost valuable time',
+          "Roy gets a second opinion. Then a third. Each one says the same thing. " +
+          "He loses six months.",
+        highlight: "couldn't accept his diagnosis and lost valuable time",
+        setFlag: 'fighting_cancer_weak',
+      },
+      {
+        text: "🌀 Try crystals, a shaman, and something called 'vibrational healing'",
+        wild: true,
+        effects: { happiness: 8, health: -28, career: 0, relationships: -10, money: -15 },
+        outcome:
+          "Roy spends four months and $11,000 on a shaman named Brad, " +
+          "amethyst crystals, and a retreat in Sedona where a man reads his aura for $400 an hour. " +
+          "Brad says Roy's 'energy signature is improving.' " +
+          "Roy's oncologist says his tumor absolutely is not. Six months wasted.",
+        highlight: 'spent eleven thousand dollars on crystal healing before accepting his cancer was real',
         setFlag: 'fighting_cancer_weak',
       },
     ],
@@ -484,7 +776,7 @@ export const EVENTS = [
         outcome:
           "Roy becomes the guy who talks about kale. Insufferably. " +
           "But his scans come back clean. He cries in the car. Clean, ugly, grateful tears.",
-        highlight: 'beat cancer through sheer stubbornness and too much kale',
+        highlight: 'beat cancer through sheer stubbornness and an obscene amount of kale',
         clearFlag: 'fighting_cancer_weak',
       },
       {
@@ -502,27 +794,39 @@ export const EVENTS = [
           "Roy decides not to fight what he can't see. The cancer disagrees. " +
           "The numbers go the wrong way. Fast.",
         highlight: 'decided fate would decide and paid a terrible price for it',
-        setFlag: 'cancer_returning',
         deathEvent: true,
-        deathCause: "The cancer came back. Roy was fifty-one years old. He didn't suffer — the end was faster than anyone expected. His family was with him.",
+        deathCause:
+          "The cancer came back. Roy was fifty-one years old. He didn't suffer — " +
+          "the end was faster than anyone expected. His family was with him.",
         deathAge: 51,
+      },
+      {
+        text: "🌀 Move to a cabin in Montana. Disappear. Deal with it alone.",
+        wild: true,
+        effects: { happiness: 18, health: -15, career: -8, relationships: -20, money: -10 },
+        outcome:
+          "Roy builds a cabin with his own hands. No treatment, no doctors, no carpet store. " +
+          "No phone. Sixteen months. He is genuinely, completely at peace. " +
+          "The cancer is still there when he surfaces. His family is furious. He is not sorry.",
+        highlight: 'fled to a cabin in Montana for sixteen months to deal with cancer entirely on his own terms',
       },
     ],
   },
 
   // ── MIDDLE AGE ─────────────────────────────────────────────────────────────
+
   {
     id: 'lifestyle_choices',
     stage: 'middleAge',
     age: 47,
     title: 'Lifestyle Choices',
     text:
-      "Middle age arrives like a slow punch. Roy's back hurts. He's heavier than he wants to be. " +
-      "His doctor keeps mentioning cholesterol. Some guys at work go hiking every weekend. " +
+      "Middle age arrives like a slow punch. Roy's back hurts. He's heavier than he'd like. " +
+      "His doctor keeps mentioning cholesterol. Some guys at work hike every weekend. " +
       "Roy's wife bought him a gym membership he hasn't used. What's the move?",
     choices: [
       {
-        text: 'Hit the gym — time to actually use that membership',
+        text: 'Hit the gym — actually use that membership',
         effects: { happiness: 10, health: 20, career: 3, relationships: 5, money: -3 },
         outcome:
           "Roy goes at 6am because it's the only time he can. He hates it for three weeks. " +
@@ -545,6 +849,73 @@ export const EVENTS = [
           "Just a slow draining. He takes more ibuprofen than he probably should.",
         highlight: 'coasted through his late forties and let his body write the checks his habits signed',
       },
+      {
+        text: "🌀 Buy a Harley-Davidson and join a biker gang",
+        wild: true,
+        effects: { happiness: 20, health: -8, career: -5, relationships: -12, money: -25 },
+        outcome:
+          "Roy's wife calls this 'the motorcycle situation' for three years. " +
+          "Roy's biker name is 'Carpet King.' He earns it after explaining his job to the gang leader, " +
+          "who says: 'That's the most normal thing anyone's told me.' " +
+          "Roy rides every weekend. He feels twenty-five.",
+        highlight: "joined a biker gang in his late forties and went by 'Carpet King'",
+        setFlag: 'biker',
+      },
+    ],
+  },
+
+  // ── CONDITIONAL: open road ─────────────────────────────────────────────────
+  {
+    id: 'open_road',
+    stage: 'middleAge',
+    age: 49,
+    title: 'The Open Road',
+    checkFlag: 'biker',
+    text:
+      "The Sons of Suburbia MC is doing a three-week run to Sturgis. " +
+      "Roy has three weeks of vacation saved. His wife has not been fully briefed on this plan. " +
+      "Who does Roy bring?",
+    choices: [
+      {
+        text: "Invite his wife — she might actually love it",
+        effects: { happiness: 15, relationships: 22, health: 3, career: 0, money: -12 },
+        outcome:
+          "Linda says yes, which Roy absolutely did not expect. " +
+          "She rides better than Roy by day two. The gang loves her. " +
+          "She gets a biker name before Roy does. Hers is 'Midnight.' " +
+          "Roy remains 'Carpet King.'",
+        highlight: 'talked his wife into a Sturgis motorcycle run and she immediately became cooler than him',
+      },
+      {
+        text: "Bring Danny — father-son trip of a lifetime",
+        effects: { happiness: 18, relationships: 18, health: 5, career: 0, money: -10 },
+        outcome:
+          "Danny is quietly terrified and doesn't say so. By day three something loosens between them. " +
+          "They don't talk much at seventy miles an hour — there's no room for it. " +
+          "Pulling into Sturgis, Danny says it's the coolest thing he's ever done. Roy agrees.",
+        highlight: 'took his son Danny on a cross-country motorcycle run that neither of them ever forgot',
+      },
+      {
+        text: 'Go alone — this is the entire point',
+        effects: { happiness: 22, health: 5, career: -3, relationships: -5, money: -8 },
+        outcome:
+          "Twenty-one states. Two broken-down bikes. One brawl Roy didn't start and immediately left. " +
+          "The longest he's been alone with his thoughts since he was young. " +
+          "He comes back knowing something he couldn't have said before the trip. " +
+          "He still can't quite say it. But he knows it.",
+        highlight: 'rode across twenty-one states alone at forty-nine and came back knowing something new',
+      },
+      {
+        text: "🌀 Ride all the way to Mexico — the route plan is purely theoretical",
+        wild: true,
+        effects: { happiness: 25, health: -5, career: -8, relationships: -15, money: -20 },
+        outcome:
+          "Roy and three guys from the gang make it to Oaxaca in eleven days. " +
+          "Two bikes break down. Roy's passport expires mid-trip. " +
+          "Getting back across the border takes sixteen hours and a very confident handshake. " +
+          "It is the greatest adventure of his adult life.",
+        highlight: 'rode a Harley to Oaxaca with an expired passport and made it home through sheer confidence',
+      },
     ],
   },
 
@@ -554,33 +925,44 @@ export const EVENTS = [
     age: 52,
     title: 'Kids Growing Up',
     text:
-      "Roy's kid Danny is heading to college. The house is about to get quiet in a way Roy isn't ready for. " +
-      "Danny wants to study art. Roy thinks that's impractical but doesn't want to be his dad. " +
+      "Roy's kid is heading to college. The house is about to get quiet in a way Roy isn't ready for. " +
+      "His kid wants to study art. Roy thinks that's impractical but doesn't want to be his dad. " +
       "What does Roy do?",
     choices: [
       {
-        text: "Support Danny fully — it's his life, his call",
+        text: "Support him fully — it's his life, his call",
         effects: { happiness: 15, health: 0, career: 0, relationships: 20, money: -10 },
         outcome:
-          "Danny studies illustration. He's actually good. He sends Roy a framed print for Christmas: " +
+          "He studies illustration. He's actually good. He sends Roy a framed print for Christmas: " +
           "a cartoon of the carpet store. Roy hangs it in his office. It stays there forever.",
-        highlight: 'supported his son Danny\'s art career even when he didn\'t understand it',
+        highlight: "supported his kid's art career even when he didn't understand it",
       },
       {
-        text: "Suggest a 'practical double major' — just as a backup",
+        text: "Suggest a 'practical double major' — just as backup",
         effects: { happiness: 5, health: 0, career: 5, relationships: 5, money: -5 },
         outcome:
-          "Danny takes business as a minor and kind of resents it for two years. " +
-          "They work through it. Roy was trying to help. Danny knows that.",
+          "He takes business as a minor and kind of resents it for two years. " +
+          "They work through it. Roy was trying to help. His kid knows that.",
         highlight: 'gave his son unsolicited advice that took a few years to forgive',
       },
       {
         text: 'Tell him to be practical — Roy knows the real world',
         effects: { happiness: -5, health: 0, career: 3, relationships: -15, money: 0 },
         outcome:
-          "Danny switches to accounting. He's miserable for ten years before he quits anyway. " +
-          "Roy can't say anything because he said the wrong thing once and Danny hasn't forgotten.",
+          "He switches to accounting. He's miserable for ten years before he quits anyway. " +
+          "Roy can't say anything because he said the wrong thing once and his son hasn't forgotten.",
         highlight: 'gave his son the wrong advice and spent years making it right',
+      },
+      {
+        text: "🌀 Audit his college classes — show up as a fellow student",
+        wild: true,
+        effects: { happiness: 15, health: 3, career: 3, relationships: 12, money: -8 },
+        outcome:
+          "Roy registers as an audit student and shows up to Intro to Art History with a thermos. " +
+          "He raises his hand seventeen times in the first lecture. " +
+          "His son switches sections. Roy shows up to that one too. " +
+          "They laugh about this for thirty years.",
+        highlight: "crashed his kid's college classes as a fifty-two-year-old and embarrassed him perfectly",
       },
     ],
   },
@@ -591,18 +973,18 @@ export const EVENTS = [
     age: 57,
     title: 'The Roof',
     text:
-      "There's a section of the roof on the house that's been leaking for two years. " +
+      "There's a section of the roof that's been leaking for two years. " +
       "Roy finally bought the materials to fix it himself. " +
-      "It's a Saturday morning. He's up there with a hammer and way too much confidence.",
+      "It's Saturday morning. He's up there with a hammer and way too much confidence.",
     checkDeath: true,
     choices: [
       {
-        text: 'Fix the roof himself — he watches YouTube, he can do this',
+        text: 'Fix it himself — he watches YouTube, he can do this',
         effects: { happiness: 5, health: -5, career: 0, relationships: 3, money: 10 },
         outcome:
-          "Roy fixes the roof. It looks rough but it holds. He texts his wife a photo with the caption: " +
+          "Roy fixes the roof. It looks rough but it holds. He texts his wife a photo: " +
           "'Roof fixed. I'm a genius.' She sends back a thumbs up.",
-        highlight: 'fixed his own roof at fifty-seven and only fell once (minor)',
+        highlight: 'fixed his own roof at fifty-seven and only slipped once (minor)',
         roofSurvived: true,
       },
       {
@@ -615,25 +997,38 @@ export const EVENTS = [
         roofSurvived: true,
       },
       {
-        text: 'Call a professional — this is above his pay grade',
+        text: "Call a professional — this is above his pay grade",
         effects: { happiness: 3, health: 5, career: 0, relationships: 5, money: -8 },
         outcome:
           "Roy calls Dave's Roofing. The guy fixes it in forty minutes. " +
-          "Roy watches from the lawn with a beer and no regrets.",
+          "Roy watches from the lawn with a beer and zero regrets.",
         highlight: 'knew when to call for help and lived to tell about it',
+        roofSurvived: true,
+      },
+      {
+        text: "🌀 Fix the roof AND install a rooftop hot tub. While up there. Why not.",
+        wild: true,
+        effects: { happiness: 22, health: -10, career: 0, relationships: 10, money: -30 },
+        outcome:
+          "Roy builds the world's most structurally questionable rooftop hot tub. " +
+          "His wife refuses to use it. His neighbors use it constantly. " +
+          "It collapses into the attic during a heavy snow in 2009. No one is hurt. " +
+          "The insurance claim is extremely difficult to explain. Roy calls it 'one of the better decisions.'",
+        highlight: 'installed an unauthorized rooftop hot tub that lasted six years before collapsing into his attic',
         roofSurvived: true,
       },
     ],
   },
 
   // ── SENIOR ─────────────────────────────────────────────────────────────────
+
   {
     id: 'retirement',
     stage: 'senior',
     age: 64,
     title: 'Retirement',
     text:
-      "Roy is sixty-four. The carpet store has run fine without him for years now. " +
+      "Roy is sixty-four. The carpet store has run fine without him for years. " +
       "His knees protest every morning. His wife has been hinting about Florida. " +
       "Is it time to stop?",
     choices: [
@@ -651,7 +1046,7 @@ export const EVENTS = [
         outcome:
           "Roy comes in three days a week. He is annoying about it. " +
           "But the business is better for his presence and he knows it.",
-        highlight: 'couldn\'t fully let go of the store and was probably right not to',
+        highlight: "couldn't fully let go of the store and was probably right not to",
       },
       {
         text: "Keep working — what else would he do",
@@ -659,7 +1054,18 @@ export const EVENTS = [
         outcome:
           "Roy works until he can't. He misses things. " +
           "He's respected and slightly lonely in a way he can't explain.",
-        highlight: 'worked until the end because he didn\'t know who he was without it',
+        highlight: "worked until the end because he didn't know who he was without it",
+      },
+      {
+        text: "🌀 Move to Thailand. Open a beach bar. Stop explaining himself.",
+        wild: true,
+        effects: { happiness: 25, health: 5, career: 0, relationships: -18, money: -15 },
+        outcome:
+          "Roy's bar in Koh Samui has six kinds of beer, no shoes allowed, and one rule: " +
+          "no sad stories before noon. He is the only English speaker for two years. " +
+          "Business is excellent. His knees eventually stage a protest and he comes home. " +
+          "He has no regrets whatsoever. None.",
+        highlight: 'ran a beach bar in Thailand for four years before his knees forced him home',
       },
     ],
   },
@@ -698,6 +1104,17 @@ export const EVENTS = [
           "Roy sits on the porch. A neighbor waves. He waves back. " +
           "That's enough. It always was.",
         highlight: 'decided his life had spoken for itself, and sat quietly on the porch',
+      },
+      {
+        text: "🌀 Start a podcast at seventy",
+        wild: true,
+        effects: { happiness: 18, health: 3, career: 5, relationships: 10, money: 5 },
+        outcome:
+          "'A Good Life: Conversations with Roy' gets 847 regular listeners by year two. " +
+          "His demographic is exclusively 65-to-80-year-olds who found him by accident. " +
+          "He records episodes about carpet, football, cancer, the Grateful Dead, and Denise. " +
+          "It's surprisingly good. He records until he's seventy-eight.",
+        highlight: 'started a podcast at seventy and found his most loyal audience yet',
       },
     ],
   },

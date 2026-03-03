@@ -6,17 +6,8 @@ export default function GameScreen({ state, onChoice, onAdvance }) {
   const { stats, age, stage, currentEvent, outcome } = state
   const stageInfo = STAGES[stage] || { label: stage, color: '#39FF14' }
 
-  // Progress: count events played vs total (18 events)
-  const totalEvents = 18
-  // rough estimate: sum up all events across all stages
-  const stageOrder = ['childhood', 'teen', 'youngAdult', 'adult', 'middleAge', 'senior']
-  const stageSizes = { childhood: 3, teen: 3, youngAdult: 3, adult: 4, middleAge: 3, senior: 2 }
-  let eventsPlayed = 0
-  for (const s of stageOrder) {
-    if (s === stage) break
-    eventsPlayed += stageSizes[s]
-  }
-  const progressPct = Math.round((eventsPlayed / totalEvents) * 100)
+  // Progress bar uses age as the most reliable indicator (5 to ~70)
+  const progressPct = Math.min(100, Math.round(((age - 5) / 65) * 100))
 
   return (
     <div className="game-screen">

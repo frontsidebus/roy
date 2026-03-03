@@ -615,6 +615,25 @@ button { cursor: pointer; font-family: inherit; }
   box-shadow: 0 0 12px rgba(255,215,0,0.2);
 }
 
+/* Wild / chaotic 4th choices */
+.choice-btn--wild {
+  border-color: rgba(155,93,229,0.4);
+  background: rgba(155,93,229,0.04);
+}
+
+.choice-btn--wild:hover {
+  background: rgba(155,93,229,0.12);
+  border-color: var(--accent-purple);
+  box-shadow: 0 0 16px rgba(155,93,229,0.3);
+  transform: translateX(4px);
+}
+
+.choice-btn--wild .choice-number {
+  background: rgba(155,93,229,0.2);
+  border-color: rgba(155,93,229,0.5);
+  color: var(--accent-purple);
+}
+
 .choice-number {
   flex-shrink: 0;
   width: 24px;

@@ -4,12 +4,16 @@ import { EVENTS } from '../data/events.js'
 export const STAGES_ORDER = ['childhood', 'teen', 'youngAdult', 'adult', 'middleAge', 'senior']
 
 export const STAGE_EVENTS = {
-  childhood: ['school_first_day', 'football_tryouts', 'dads_shadow'],
-  teen: ['high_school_identity', 'summer_job', 'graduation_plans'],
-  youngAdult: ['college_choice', 'carpet_store', 'first_love'],
-  adult: ['marriage_decision', 'starting_family', 'the_diagnosis', 'beating_it'],
-  middleAge: ['lifestyle_choices', 'kids_growing_up', 'the_roof'],
-  senior: ['retirement', 'legacy'],
+  childhood:  ['school_first_day', 'football_tryouts', 'dads_shadow'],
+  teen:       ['high_school_identity', 'summer_job', 'graduation_plans'],
+  // veteran_homecoming only fires if 'veteran' flag set (military enlistment path)
+  youngAdult: ['college_choice', 'veteran_homecoming', 'carpet_store', 'first_love'],
+  // rock_bottom only fires if 'divorced_once' flag set (Vegas marriage path)
+  // the_big_idea only fires if 'entrepreneur' flag set (gambling ring / fireworks paths)
+  adult:      ['rock_bottom', 'marriage_decision', 'the_big_idea', 'starting_family', 'the_diagnosis', 'beating_it'],
+  // open_road only fires if 'biker' flag set (Harley path)
+  middleAge:  ['lifestyle_choices', 'open_road', 'kids_growing_up', 'the_roof'],
+  senior:     ['retirement', 'legacy'],
 }
 
 // ── Initial state ──────────────────────────────────────────────────────────

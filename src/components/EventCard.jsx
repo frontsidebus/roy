@@ -24,7 +24,11 @@ export default function EventCard({ event, outcome, onChoice, onAdvance }) {
         {event.choices.map((choice, i) => (
           <button
             key={i}
-            className={`choice-btn ${choice.canonical ? 'choice-btn--canonical' : ''}`}
+            className={[
+              'choice-btn',
+              choice.canonical ? 'choice-btn--canonical' : '',
+              choice.wild ? 'choice-btn--wild' : '',
+            ].filter(Boolean).join(' ')}
             onClick={() => onChoice(event.id, i)}
           >
             <span className="choice-number">{i + 1}</span>
